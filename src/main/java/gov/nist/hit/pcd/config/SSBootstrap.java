@@ -1,4 +1,4 @@
-package gov.nist.hit.ss.config;
+package gov.nist.hit.pcd.config;
 
 import gov.nist.hit.core.service.ResourcebundleLoader;
 import gov.nist.hit.core.service.exception.ProfileParserException;
