@@ -1,0 +1,562 @@
+<ConformanceContext
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Jungyubw/NIST_healthcare_hl7_v2_profile_schema/master/Schema/NIST%20Validation%20Schema/ConformanceContext.xsd"
+  UUID="5a4f98f584aef4028b859e6d"><MetaData Name="PCD" OrgName="IHE" Version="1.0" Date="No Date Info" Status="Draft"/>
+  <Predicates>
+    <Datatype>
+      <ByID ID="EI_PCD_OBR-2_2-6">
+        <Predicate ID="undefined-2" Target="2[1]" TrueUsage="R" FalseUsage="O">
+          <Description>[If EI.3 (Universal ID) is not valued] OR [If EI.4 (Universal ID Type) is not valued]</Description>
+          <Condition>
+            <OR>
+              <NOT><Presence Path="3[1]"/></NOT>
+              <NOT><Presence Path="4[1]"/></NOT>
+            </OR>
+          </Condition>
+        </Predicate>
+      </ByID>
+      <ByID ID="EI_PCD_2-6">
+        <Predicate ID="CP_2[1]_0" Target="2[1]" TrueUsage="O" FalseUsage="RE">
+          <Description>If the value of EI.4 (Universal ID Type) is 'EUI-64'.</Description>
+          <Condition><PlainText Path="4[1]" Text="EUI-64" IgnoreCase="false"/></Condition>
+        </Predicate>
+      </ByID>
+    </Datatype>
+    <Segment>
+      <ByID ID="OBX_PCD_2-6">
+        <Predicate ID="CP_5[1]_0" Target="5[1]" TrueUsage="RE" FalseUsage="X">
+          <Description>If the value of OBX-4 (Observation Sub-ID) is formatted with '^(\d+).(\d+).(\d+).([1-9]+\d*)$'.</Description>
+          <Condition><Format Path="4[1]" Regex="^(\d+).(\d+).(\d+).([1-9]+\d*)$"/></Condition>
+        </Predicate>
+        <Predicate ID="CP_2[1]_0" Target="2[1]" TrueUsage="R" FalseUsage="O">
+          <Description>If the value of OBX-11 is not 'X'.</Description>
+          <Condition>
+            <NOT>
+              <AND><Presence Path="11[1]"/><PlainText Path="11[1]" Text="X" IgnoreCase="false"/></AND>
+            </NOT>
+          </Condition>
+        </Predicate>
+      </ByID>
+      <ByID ID="PID_PCD_2-6">
+        <Predicate ID="undefined-35" Target="35[1]" TrueUsage="R" FalseUsage="O">
+          <Description>[If PID-36 (Breed Code) is valued] OR [If PID-38[*] (Production Class Code) is valued]</Description>
+          <Condition>
+            <OR><Presence Path="36[1]"/><Presence Path="38[*]"/></OR>
+          </Condition>
+        </Predicate>
+        <Predicate ID="CP_36[1]_0" Target="36[1]" TrueUsage="R" FalseUsage="O">
+          <Description>If PID-37 (Strain) is valued</Description>
+          <Condition><Presence Path="37[1]"/></Condition>
+        </Predicate>
+      </ByID>
+    </Segment>
+    <Group>
+      <ByID ID="565f3ab5d4c6e52cfd43d089">
+        <Predicate ID="CP_NOT Assigned_0" Target="2[1].2[1]" TrueUsage="R" FalseUsage="O">
+          <Description>If ORC[1].2[1] (Placer Order Number) is not valued</Description>
+          <Condition>
+            <NOT><Presence Path="1[1].2[1]"/></NOT>
+          </Condition>
+        </Predicate>
+      </ByID>
+    </Group><Message/></Predicates>
+  <Constraints>
+    <Datatype>
+      <ByID ID="VID_PCD_MSH_2-6">
+        <Constraint ID="VID_PCD_MSH_1">
+          <Description>The value of VID-1 (Version ID) is '2.6'.</Description>
+          <Assertion><PlainText Path="1[1]" Text="2.6" IgnoreCase="false"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="DTM_2-8-2">
+        <Constraint ID="DTM_Year_USAGE(R)" Target=".">
+          <Description>Year usage is 'R'.</Description>
+          <Assertion><Format Path="." Regex="([0-9]{4})(((0[1-9])|(1[0-2]))(((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?)?)?((\+|\-)[0-9]{4})?"/></Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Day_USAGE(C)" Target=".">
+          <Description>Day usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Month) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Hour_USAGE(C)" Target=".">
+          <Description>Hour usage is 'C'.False Usage is 'X'. Predicate is 'If DD(Day) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Minute_USAGE(C)" Target=".">
+          <Description>Minute usage is 'C'.False Usage is 'X'. Predicate is 'If HH(Hour) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Second_USAGE(C)" Target=".">
+          <Description>Second usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Minute) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])(\.[0-9]{1,4})?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10 second_USAGE(C)" Target=".">
+          <Description>1/10 second usage is 'C'.False Usage is 'X'. Predicate is 'If SS(Second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9]([0-9]([0-9]([0-9])?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/100 second_USAGE(C)" Target=".">
+          <Description>1/100 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/10 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9]([0-9]([0-9])?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/1000 second_USAGE(C)" Target=".">
+          <Description>1/1000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/100 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9]([0-9])?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10000 second_USAGE(C)" Target=".">
+          <Description>1/10000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/1000 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="DTM_2-8">
+        <Constraint ID="DTM_Year_USAGE(R)" Target=".">
+          <Description>Year usage is 'R'.</Description>
+          <Assertion><Format Path="." Regex="([0-9]{4})(((0[1-9])|(1[0-2]))(((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?)?)?((\+|\-)[0-9]{4})?"/></Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Day_USAGE(C)" Target=".">
+          <Description>Day usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Month) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Hour_USAGE(C)" Target=".">
+          <Description>Hour usage is 'C'.False Usage is 'X'. Predicate is 'If DD(Day) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Minute_USAGE(C)" Target=".">
+          <Description>Minute usage is 'C'.False Usage is 'X'. Predicate is 'If HH(Hour) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Second_USAGE(C)" Target=".">
+          <Description>Second usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Minute) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])(\.[0-9]{1,4})?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10 second_USAGE(C)" Target=".">
+          <Description>1/10 second usage is 'C'.False Usage is 'X'. Predicate is 'If SS(Second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9]([0-9]([0-9]([0-9])?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/100 second_USAGE(C)" Target=".">
+          <Description>1/100 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/10 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9]([0-9]([0-9])?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/1000 second_USAGE(C)" Target=".">
+          <Description>1/1000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/100 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9]([0-9])?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10000 second_USAGE(C)" Target=".">
+          <Description>1/10000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/1000 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="EI_PCD_MSH_2-6">
+        <Constraint ID="EI_1" Target="4[1]">
+          <Description>The value of EI.4(Universal ID Type) SHALL be one of list values: EUI-64,ISO,URN.</Description>
+          <Assertion><StringList Path="4[1]" CSV="EUI-64,ISO,URN"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="EI_PCD_2-6">
+        <Constraint ID="EI_1" Target="4[1]">
+          <Description>The value of EI.4(Universal ID Type) SHALL be one of list values: EUI-64,ISO,URN.</Description>
+          <Assertion><StringList Path="4[1]" CSV="EUI-64,ISO,URN"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="EI_PCD_OBR-2_2-6">
+        <Constraint ID="EI_1" Target="4[1]">
+          <Description>The value of EI.4(Universal ID Type) SHALL be one of list values: EUI-64,ISO,URN.</Description>
+          <Assertion><StringList Path="4[1]" CSV="EUI-64,ISO,URN"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="DTM_2-6">
+        <Constraint ID="DTM_Year_USAGE(R)" Target=".">
+          <Description>Year usage is 'R'.</Description>
+          <Assertion><Format Path="." Regex="([0-9]{4})(((0[1-9])|(1[0-2]))(((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?)?)?((\+|\-)[0-9]{4})?"/></Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Day_USAGE(C)" Target=".">
+          <Description>Day usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Month) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Hour_USAGE(C)" Target=".">
+          <Description>Hour usage is 'C'.False Usage is 'X'. Predicate is 'If DD(Day) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Minute_USAGE(C)" Target=".">
+          <Description>Minute usage is 'C'.False Usage is 'X'. Predicate is 'If HH(Hour) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Second_USAGE(C)" Target=".">
+          <Description>Second usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Minute) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])(\.[0-9]{1,4})?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10 second_USAGE(C)" Target=".">
+          <Description>1/10 second usage is 'C'.False Usage is 'X'. Predicate is 'If SS(Second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9]([0-9]([0-9]([0-9])?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/100 second_USAGE(C)" Target=".">
+          <Description>1/100 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/10 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9]([0-9]([0-9])?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/1000 second_USAGE(C)" Target=".">
+          <Description>1/1000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/100 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9]([0-9])?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10000 second_USAGE(C)" Target=".">
+          <Description>1/10000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/1000 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="XAD_PCD_PID_2-6">
+        <Constraint ID="XAD_PCD_PID_7">
+          <Description>The value of XAD-7 (Address Type) is 'M'.</Description>
+          <Assertion><PlainText Path="7[1]" Text="M" IgnoreCase="false"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="EI_PCD_OBR-3_2-6">
+        <Constraint ID="EI_1" Target="4[1]">
+          <Description>The value of EI.4(Universal ID Type) SHALL be one of list values: EUI-64,ISO,URN.</Description>
+          <Assertion><StringList Path="4[1]" CSV="EUI-64,ISO,URN"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="EI_PCD_OBX-18_2-6">
+        <Constraint ID="EI_1" Target="4[1]">
+          <Description>The value of EI.4(Universal ID Type) SHALL be one of list values: EUI-64,ISO,URN.</Description>
+          <Assertion><StringList Path="4[1]" CSV="EUI-64,ISO,URN"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="DTM_2-7">
+        <Constraint ID="DTM_Year_USAGE(R)" Target=".">
+          <Description>Year usage is 'R'.</Description>
+          <Assertion><Format Path="." Regex="([0-9]{4})(((0[1-9])|(1[0-2]))(((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?)?)?((\+|\-)[0-9]{4})?"/></Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Day_USAGE(C)" Target=".">
+          <Description>Day usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Month) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Hour_USAGE(C)" Target=".">
+          <Description>Hour usage is 'C'.False Usage is 'X'. Predicate is 'If DD(Day) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Minute_USAGE(C)" Target=".">
+          <Description>Minute usage is 'C'.False Usage is 'X'. Predicate is 'If HH(Hour) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_Second_USAGE(C)" Target=".">
+          <Description>Second usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Minute) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])(\.[0-9]{1,4})?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10 second_USAGE(C)" Target=".">
+          <Description>1/10 second usage is 'C'.False Usage is 'X'. Predicate is 'If SS(Second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9]([0-9]([0-9]([0-9])?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/100 second_USAGE(C)" Target=".">
+          <Description>1/100 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/10 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9]([0-9]([0-9])?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/1000 second_USAGE(C)" Target=".">
+          <Description>1/1000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/100 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9]([0-9])?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_1/10000 second_USAGE(C)" Target=".">
+          <Description>1/10000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/1000 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="DTM_PCD_2-6">
+        <Constraint ID="DTM_PCD_Year_USAGE(R)" Target=".">
+          <Description>Year usage is 'R'.</Description>
+          <Assertion><Format Path="." Regex="([0-9]{4})(((0[1-9])|(1[0-2]))(((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?)?)?((\+|\-)[0-9]{4})?"/></Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_Day_USAGE(C)" Target=".">
+          <Description>Day usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Month) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))((([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_Hour_USAGE(C)" Target=".">
+          <Description>Hour usage is 'C'.False Usage is 'X'. Predicate is 'If DD(Day) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))(([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_Minute_USAGE(C)" Target=".">
+          <Description>Minute usage is 'C'.False Usage is 'X'. Predicate is 'If HH(Hour) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])(([0-5][0-9])(\.[0-9]{1,4})?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_Second_USAGE(C)" Target=".">
+          <Description>Second usage is 'C'.False Usage is 'X'. Predicate is 'If MM(Minute) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])(\.[0-9]{1,4})?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_1/10 second_USAGE(C)" Target=".">
+          <Description>1/10 second usage is 'C'.False Usage is 'X'. Predicate is 'If SS(Second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9]([0-9]([0-9]([0-9])?)?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_1/100 second_USAGE(C)" Target=".">
+          <Description>1/100 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/10 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9]([0-9]([0-9])?)?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_1/1000 second_USAGE(C)" Target=".">
+          <Description>1/1000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/100 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9]([0-9])?((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="DTM_PCD_1/10000 second_USAGE(C)" Target=".">
+          <Description>1/10000 second usage is 'C'.False Usage is 'X'. Predicate is 'If s(1/1000 second) is valued.'.</Description>
+          <Assertion>
+            <IMPLY>
+              <NOT><Format Path="." Regex="([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]((\+|\-)[0-9]{4})?"/></NOT><Format Path="." Regex="([0-9]{4})?((0[1-9])|(1[0-2]))?((0[1-9])|([1-2][0-9])|(3[0-1]))?(([0-1][0-9])|(2[0-3]))?([0-5][0-9])?([0-5][0-9])?(\.[0-9])?([0-9])?([0-9])?((\+|\-)[0-9]{4})?"/></IMPLY>
+          </Assertion>
+        </Constraint>
+      </ByID>
+    </Datatype>
+    <Segment>
+      <ByID ID="MSH_PCD_2-6">
+        <Constraint ID="MSH_PCD_1" Target="1[1]">
+          <Description>The value of MSH-1(Field Separator) SHALL be '|'.</Description>
+          <Assertion><PlainText Path="1[1]" Text="|" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_2" Target="2[1]">
+          <Description>The value of MSH.2 (Encoding Characters) SHALL be '^~\&amp;'.</Description>
+          <Assertion><PlainText IgnoreCase="false" Path="2[1]" Text="^~\&amp;"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="OBX_PCD_2-6">
+        <Constraint ID="OBX_3_MDC_Check" Target="1[1].1[1]">
+          <Description>NIST custom plugin to check for MDC validity.</Description>
+          <Assertion>
+            <Plugin QualifiedClassName="gov.nist.hit.pcd.custom.OBX_3"/>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="OBX_Unit_Check" Target="1[1].1[1]">
+          <Description>NIST custom plugin to check for Units validity.</Description>
+          <Assertion>
+            <Plugin QualifiedClassName="gov.nist.hit.pcd.custom.OBX_UnitCheck"/>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="OBX_PCD_8">
+          <Description>The value of OBX-8[*] (Abnormal Flags) is one of list values: N,L,LL,H,HH,A.</Description>
+          <Assertion><StringList Path="8[*]" CSV="N,L,LL,H,HH,A"/></Assertion>
+        </Constraint>
+        <Constraint ID="OBX_PCD_4">
+          <Description>The value of OBX-4 is formatted with '^(\d+).(\d+).(\d+).(\d+)(.\d+)?$'.</Description>
+          <Assertion>
+            <AND><Presence Path="4[1]"/><Format Path="4[1]" Regex="^(\d+).(\d+).(\d+).(\d+)(.\d+)?$"/></AND>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="PID_PCD_2-6">
+        <Constraint ID="PID_2" Target="11[1]">
+          <Description>The value of PID-11.7(Address Type) SHALL be 'M'.</Description>
+          <Assertion><PlainText Path="11[1].7[1]" Text="M" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="PID_1" Target="7[1]">
+          <Description>The value of PID-7(Date/Time of Birth) SHALL be valid in format: 'YYYY[MM[DD[HH[MM[SS]]]]][+/-ZZZZ]'.</Description>
+          <Assertion><Format
+            Path="7[1]"
+            Regex="(([0-9]{4})|(([0-9]{4})((0[1-9])|(1[0-2])))|(([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1])))|(([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3])))|(([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9]))|(([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9]))|(([0-9]{4})((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))([0-5][0-9])([0-5][0-9])\.[0-9][0-9][0-9][0-9]))"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="PV1_PCD_2-6">
+        <Constraint ID="PV1_1" Target="51[1]">
+          <Description>[[The value of PV1-51(Visit Indicator) SHALL be 'V'.] OR [The value of PV1-51(Visit Indicator) SHALL be 'A'.]] OR [PV1-51(Visit Indicator) SHALL NOT be valued.]</Description>
+          <Assertion>
+            <OR>
+              <OR><PlainText Path="51[1]" Text="V" IgnoreCase="false"/><PlainText Path="51[1]" Text="A" IgnoreCase="false"/></OR><Presence Path="51[1]"/></OR>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="MSH_PCD_PCD-04_2-6">
+        <Constraint ID="MSH_PCD_1" Target="1[1]">
+          <Description>The value of MSH-1(Field Separator) SHALL be '|'.</Description>
+          <Assertion><PlainText Path="1[1]" Text="|" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_2" Target="2[1]">
+          <Description>The value of MSH.2 (Encoding Characters) SHALL be '^~\&amp;'.</Description>
+          <Assertion><PlainText IgnoreCase="false" Path="2[1]" Text="^~\&amp;"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-04_9">
+          <Description>The value of MSH-9 is 'ORU^R40^ORU_R40'.</Description>
+          <Assertion>
+            <AND><Presence Path="9[1]"/>
+              <AND>
+                <AND><PlainText Path="9[1].1[1]" Text="ORU" IgnoreCase="false"/><PlainText Path="9[1].2[1]" Text="R40" IgnoreCase="false"/></AND><PlainText Path="9[1].3[1]" Text="ORU_R40" IgnoreCase="false"/></AND>
+            </AND>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-04_15">
+          <Description>The value of MSH-15 is 'AL'.</Description>
+          <Assertion>
+            <AND><Presence Path="15[1]"/><PlainText Path="15[1]" Text="AL" IgnoreCase="false"/></AND>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-04_16">
+          <Description>The value of MSH-16 is 'NE'.</Description>
+          <Assertion>
+            <AND><Presence Path="16[1]"/><PlainText Path="16[1]" Text="NE" IgnoreCase="false"/></AND>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-04_21">
+          <Description>[[The value of MSH-21[*].3 is '1.3.6.1.4.1.19376.1.6.4.4'.] OR [The value of MSH-21[*].3 is '1.3.6.1.4.1.19376.1.6.1.4.1'.]] AND [The value of MSH-21[*].4 is 'ISO'.]</Description>
+          <Assertion>
+            <AND>
+              <OR>
+                <AND><Presence Path="21[*].3[1]"/><PlainText Path="21[*].3[1]" Text="1.3.6.1.4.1.19376.1.6.4.4" IgnoreCase="false"/></AND>
+                <AND><Presence Path="21[*].3[1]"/><PlainText Path="21[*].3[1]" Text="1.3.6.1.4.1.19376.1.6.1.4.1" IgnoreCase="false"/></AND>
+              </OR>
+              <AND><Presence Path="21[*].4[1]"/><PlainText Path="21[*].4[1]" Text="ISO" IgnoreCase="false"/></AND>
+            </AND>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="OBR_PCD_2-6">
+        <Constraint ID="OBR_1" Target="1[1]">
+          <Description>The value of OBR-1(Set ID - OBR) SHALL be valued sequentially starting with the value '1'.</Description>
+          <Assertion><SetID Path="1[1]"/></Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="MSH_PCD_PCD-01_2-6">
+        <Constraint ID="MSH_PCD_1" Target="1[1]">
+          <Description>The value of MSH-1(Field Separator) SHALL be '|'.</Description>
+          <Assertion><PlainText Path="1[1]" Text="|" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_2" Target="2[1]">
+          <Description>The value of MSH.2 (Encoding Characters) SHALL be '^~\&amp;'.</Description>
+          <Assertion><PlainText IgnoreCase="false" Path="2[1]" Text="^~\&amp;"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-01_16">
+          <Description>The value of MSH-16 (Application Acknowledgment Type) is 'NE'.</Description>
+          <Assertion><PlainText Path="16[1]" Text="NE" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-01_9">
+          <Description>The value of MSH-9 (Message Type) is 'ORU^R01^ORU_R01'.</Description>
+          <Assertion>
+            <AND>
+              <AND><PlainText Path="9[1].1[1]" Text="ORU" IgnoreCase="false"/><PlainText Path="9[1].2[1]" Text="R01" IgnoreCase="false"/></AND><PlainText Path="9[1].3[1]" Text="ORU_R01" IgnoreCase="false"/></AND>
+          </Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-01_15">
+          <Description>The value of MSH-15 (Accept Acknowledgment Type) is 'AL'.</Description>
+          <Assertion><PlainText Path="15[1]" Text="AL" IgnoreCase="false"/></Assertion>
+        </Constraint>
+        <Constraint ID="MSH_PCD_PCD-01_21">
+          <Description>[[The value of MSH-21[*].3 (Universal ID) is '1.3.6.1.4.1.19376.1.6.4.1'.] OR [The value of MSH-21[*].3 (Universal ID) is '1.3.6.1.4.1.19376.1.6.1.1.1'.]] AND [The value of MSH-21[*].4 (Universal ID Type) is 'ISO'.]</Description>
+          <Assertion>
+            <AND>
+              <OR><PlainText Path="21[*].3[1]" Text="1.3.6.1.4.1.19376.1.6.4.1" IgnoreCase="false"/><PlainText Path="21[*].3[1]" Text="1.3.6.1.4.1.19376.1.6.1.1.1" IgnoreCase="false"/></OR><PlainText Path="21[*].4[1]" Text="ISO" IgnoreCase="false"/></AND>
+          </Assertion>
+        </Constraint>
+      </ByID>
+      <ByID ID="MSH_PCD_ACK_2-6">
+        <Constraint ID="MSH_PCD_2" Target="2[1]">
+          <Description>The value of MSH.2 (Encoding Characters) SHALL be '^~\&amp;'.</Description>
+          <Assertion><PlainText IgnoreCase="false" Path="2[1]" Text="^~\&amp;"/></Assertion>
+        </Constraint>
+      </ByID>
+    </Segment><Group/><Message/></Constraints>
+</ConformanceContext>

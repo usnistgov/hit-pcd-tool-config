@@ -11,15 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SSBootstrap {
+public class PCDBootstrap {
 
 
 	@Autowired
 	ResourcebundleLoader resourcebundleLoader;
 	
 	@PostConstruct
-	public void init() throws  ProfileParserException, IOException{
+	public void init() throws  Exception{
 		resourcebundleLoader.load();
 	}
+	
+	
+	
 	
 }
