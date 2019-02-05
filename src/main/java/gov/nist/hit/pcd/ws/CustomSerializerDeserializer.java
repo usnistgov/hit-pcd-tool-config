@@ -17,6 +17,7 @@ public class CustomSerializerDeserializer extends AbstractPooledBufferByteArrayS
 	public static final char FS = 0x1c;
 	public static final char CR = 0x0d;
 	
+	
 	@Override
 	public void serialize(byte[] bytes, OutputStream outputStream) throws IOException {
 		outputStream.write(VT);

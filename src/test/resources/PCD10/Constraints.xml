@@ -1594,17 +1594,64 @@
 			
 
 			<ByName Name="OBX">
-				<Constraint ID="first">
-					<Description>PROUT</Description>
+				<Constraint ID="MDC_ATTR_EVT_COND_check">
+					<Description>MDC_ATTR_EVT_COND check</Description>
 					<Assertion>
 							<IMPLY>
-								<AND>
-									<Presence Path="3[1].1[1]"/>
-									<PlainText Path="3[1].1[1]" Text="150033" IgnoreCase="false" />
-								</AND>
+									<PlainText Path="3[1].2[1]" Text="MDC_ATTR_EVT_COND" IgnoreCase="false" />
+									
+								<EXIST>
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_START" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_STOP" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_COMP" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_COMM_STATUS_CHANGE" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_PROG_CLEARED" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_AUTO_PROG_CLEARED" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PATIENT_CHANGE" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PATIENT_ID_CHANGE" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PATIENT_PARAMETER_CHANGE" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_VOL_COUNTERS_CLEARED" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_DEVICE_TIME_CHANGED" IgnoreCase="false" />
+								</EXIST>								
+							</IMPLY>
+					</Assertion>
+				</Constraint>
+			
+				<Constraint ID="START_check">
+					<Description>MDC_EVT_PUMP_DELIV_START check</Description>
+					<Assertion>
+							<IMPLY>
+									<PlainText Path="3[1].2[1]" Text="MDC_ATTR_EVT_COND" IgnoreCase="false" />
 								<FORALL>
-									<PlainText Path="3[1].2[1]" Text="MDC_PRESS_BLD_ART_SYS" IgnoreCase="false" />
-									<PlainText Path="3[1].3[1]" Text="MDC" IgnoreCase="false" />
+									<PlainText Path="5[1].3[1]" Text="197288" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_START" IgnoreCase="false" />
+									<PlainText Path="5[1].3[1]" Text="MDC" IgnoreCase="false" />
+								</FORALL>								
+							</IMPLY>
+					</Assertion>
+				</Constraint>
+				<Constraint ID="STOP_check">
+					<Description>MDC_EVT_PUMP_DELIV_STOP check</Description>
+					<Assertion>
+							<IMPLY>
+									<PlainText Path="3[1].2[1]" Text="MDC_ATTR_EVT_COND" IgnoreCase="false" />
+								<FORALL>
+									<PlainText Path="5[1].3[1]" Text="197290" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_STOP" IgnoreCase="false" />
+									<PlainText Path="5[1].3[1]" Text="MDC" IgnoreCase="false" />
+								</FORALL>								
+							</IMPLY>
+					</Assertion>
+				</Constraint>
+				<Constraint ID="COMP_check">
+					<Description>MDC_EVT_PUMP_DELIV_COMP check</Description>
+					<Assertion>
+							<IMPLY>
+									<PlainText Path="3[1].2[1]" Text="MDC_ATTR_EVT_COND" IgnoreCase="false" />
+								<FORALL>
+									<PlainText Path="5[1].3[1]" Text="197292" IgnoreCase="false" />
+									<PlainText Path="5[1].2[1]" Text="MDC_EVT_PUMP_DELIV_COMP" IgnoreCase="false" />
+									<PlainText Path="5[1].3[1]" Text="MDC" IgnoreCase="false" />
 								</FORALL>								
 							</IMPLY>
 					</Assertion>
@@ -1832,20 +1879,7 @@
 				</Constraint>
 			</ByID>
 
-			<ByID ID="57a243d484ae5af0417e1faa">
-				<Constraint ID="first" Target="4[*].2[*].6[*].1[1].3[1].1[1]">
-					<Description>TG</Description>
-					<Assertion>
-						<AND>
-							<Presence Path="4[*].2[*].6[*].1[1].3[1].1[1]" />
-							<PlainText Path="4[*].2[*].6[*].1[1].3[1].1[1]" Text="150033"
-								AtLeastOnce="true" IgnoreCase="false" />
-						</AND>
-					</Assertion>
-				</Constraint>
-
-
-			</ByID>
+			
 			
 			
 

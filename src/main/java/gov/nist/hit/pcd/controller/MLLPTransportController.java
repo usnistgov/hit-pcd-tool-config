@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.HandlerMapping;
 
 import gov.nist.auth.hit.core.domain.Account;
 import gov.nist.auth.hit.core.domain.TransportConfig;
@@ -100,7 +102,7 @@ public class MLLPTransportController {
 	
 
 	private final static String PROTOCOL = "mllp";
-	private final static String DOMAIN = "pcd";	
+//	private final static String DOMAIN = "pcd";	
 	
 	private final static String APPLICATIONNAMESPACEID = "appnamespaceid";
 	private final static String APPLICATIONUNIVERSALID = "appuniversalid";
@@ -119,13 +121,15 @@ public class MLLPTransportController {
 	@RequestMapping(value = "/startListener", method = RequestMethod.POST, produces = "application/json")
 	public boolean startListener(
 			@ApiParam(value = "the transport request", required = true) @RequestBody TransportRequest request,
-			@ApiParam(value = "The user session", required = true) HttpSession session) throws UserNotFoundException {
+			@ApiParam(value = "The user session", required = true) HttpSession session,HttpServletRequest httpRequest) throws UserNotFoundException {
 		logger.info("Starting listener");
 		Long userId = SessionContext.getCurrentUserId(session);
 		if (userId == null || (accountService.findOne(userId)) == null) {
 			throw new UserNotFoundException();
 		}
-		clearExchanges(userId);
+		String domain = getDomain(httpRequest);
+
+		clearExchanges(userId,domain);
 
 		if (request.getResponseMessageId() == null)
 			throw new gov.nist.hit.core.service.exception.TransportException("Response message not found");
@@ -133,7 +137,7 @@ public class MLLPTransportController {
 		TransportMessage transportMessage = new TransportMessage();
 		transportMessage.setMessageId(request.getResponseMessageId());
 		Map<String, String> config = new HashMap<String, String>();
-		config.putAll(getSutInitiatorConfig(userId));
+		config.putAll(getSutInitiatorConfig(userId,domain));
 		transportMessage.setProperties(config);
 		transportMessageService.save(transportMessage);
 
@@ -145,19 +149,20 @@ public class MLLPTransportController {
 	// nickname = "stopListener", notes = "A user session is required")
 	@RequestMapping(value = "/stopListener", method = RequestMethod.POST, produces = "application/json")
 	public boolean stopListener(@ApiParam(value = "the request", required = true) @RequestBody TransportRequest request,
-			@ApiParam(value = "The user session", required = true) HttpSession session) throws UserNotFoundException {
+			@ApiParam(value = "The user session", required = true) HttpSession session, HttpServletRequest httpRequest) throws UserNotFoundException {
 		logger.info("Stopping listener ");
 		Long userId = SessionContext.getCurrentUserId(session);
 		if (userId == null || (accountService.findOne(userId)) == null) {
 			throw new UserNotFoundException();
 		}
-		clearExchanges(userId);
+		String domain = getDomain(httpRequest);
+		clearExchanges(userId,domain);
 		GCUtil.performGC();
 		return true;
 	}
 
-	private boolean clearExchanges(Long userId) {
-		Map<String, String> config = getSutInitiatorConfig(userId);
+	private boolean clearExchanges(Long userId, String domain) {
+		Map<String, String> config = getSutInitiatorConfig(userId,domain);
 		Map<String, String> criteria = new HashMap<String, String>();
 		criteria.put(APPLICATIONNAMESPACEID, config.get(APPLICATIONNAMESPACEID));
 		criteria.put(FACILITYNAMESPACEID, config.get(FACILITYNAMESPACEID));
@@ -180,8 +185,8 @@ public class MLLPTransportController {
 		}
 	}
 
-	private Map<String, String> getSutInitiatorConfig(Long userId) {
-		TransportConfig config = transportConfigService.findOneByUserAndProtocolAndDomain(userId, PROTOCOL, DOMAIN);
+	private Map<String, String> getSutInitiatorConfig(Long userId, String domain) {
+		TransportConfig config = transportConfigService.findOneByUserAndProtocolAndDomain(userId, PROTOCOL, domain);
 		Map<String, String> sutInitiator = config != null ? config.getSutInitiator() : null;
 		if (sutInitiator == null || sutInitiator.isEmpty())
 			throw new gov.nist.hit.core.service.exception.TransportException(
@@ -242,6 +247,10 @@ public class MLLPTransportController {
 	@RequestMapping(value = "/configs", method = RequestMethod.POST, produces = "application/json")
 	public TransportConfig configs(@ApiParam(value = "The user session", required = true) HttpSession session,
 			HttpServletRequest request) throws UserNotFoundException {
+		
+		String domain = getDomain(request);
+			
+		
 		logger.info("Fetching user configuration information ... ");
 		Long userId = SessionContext.getCurrentUserId(session);
 		Account user = null;
@@ -249,9 +258,9 @@ public class MLLPTransportController {
 			throw new UserNotFoundException();
 		}
 		TransportConfig transportConfig = transportConfigService.findOneByUserAndProtocolAndDomain(userId, PROTOCOL,
-				DOMAIN);
+				domain);
 		if (transportConfig == null) {
-			transportConfig = transportConfigService.create(PROTOCOL, DOMAIN);
+			transportConfig = transportConfigService.create(PROTOCOL, domain);
 			transportConfig.setUserId(userId);
 			Map<String, String> taInitiatorConfig = taInitiatorConfig(user, request);
 			transportConfig.setTaInitiator(taInitiatorConfig);
@@ -288,7 +297,7 @@ public class MLLPTransportController {
 		
 		
 		String endpoint = "";
-        endpoint = Utils.getUrl(request);
+        endpoint = Utils.getHostUrl(request);
        
 //        endpoint += "/api/" + DOMAIN + "/" + PROTOCOL + "/message";       
 				
@@ -359,6 +368,19 @@ public class MLLPTransportController {
 		this.passwordService = passwordService;
 	}
 
+
+	private String getDomain(HttpServletRequest request) {
+		String res= "";
+		String path = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        String bestMatchPattern = (String ) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+        AntPathMatcher apm = new AntPathMatcher();
+        String finalPath = apm.extractPathWithinPattern(bestMatchPattern, path);
+        if (finalPath != null && !finalPath.isEmpty()) {
+        		res = finalPath.substring(0,finalPath.indexOf("/"));
+        }
+        return res;
+	}
+	
 	@ResponseBody
 	@ExceptionHandler(UserTokenIdNotFoundException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -375,4 +397,6 @@ public class MLLPTransportController {
 		return ex.getMessage();
 	}
 
+	
+	
 }

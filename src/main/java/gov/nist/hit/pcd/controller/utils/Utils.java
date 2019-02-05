@@ -38,6 +38,13 @@ public class Utils {
 			}
 	        return scheme + "://" + host + request.getContextPath();
 	    }
+	 
+	 public static String getHostUrl(HttpServletRequest request) {
+	        String scheme = request.getScheme();
+	        String host = request.getHeader("Host");	       
+//	        return scheme + "://" + host;
+	        return "129.6.24.36:13080";
+	    }
 	
 	 public static String extractMessage(InputStream in) throws IOException {
 	        StringWriter inBuf = new StringWriter();

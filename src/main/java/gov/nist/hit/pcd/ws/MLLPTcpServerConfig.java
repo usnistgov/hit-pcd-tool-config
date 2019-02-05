@@ -42,6 +42,8 @@ public class MLLPTcpServerConfig {
 	private MessageRepository messageRepository;
 	
 	private final int port = 13080;
+	
+	protected int maxMessageSize = 32768;
 
 //	private String host = "localhost";
 //	private int port = 8082;
@@ -153,8 +155,15 @@ public class MLLPTcpServerConfig {
 	@Bean
 	public AbstractServerConnectionFactory serverCF() {
 		TcpNetServerConnectionFactory cf = new TcpNetServerConnectionFactory(this.port);
-		cf.setSerializer(new CustomSerializerDeserializer());
-		cf.setDeserializer(new CustomSerializerDeserializer());
+		CustomSerializerDeserializer ser = new CustomSerializerDeserializer();
+		ser.setMaxMessageSize(this.maxMessageSize);		
+		cf.setSerializer(ser);
+		
+		CustomSerializerDeserializer deser = new CustomSerializerDeserializer();
+		deser.setMaxMessageSize(this.maxMessageSize);
+		cf.setDeserializer(deser);
+		
+		
 		return cf;
 	}
 
