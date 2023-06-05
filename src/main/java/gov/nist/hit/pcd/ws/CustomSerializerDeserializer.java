@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.log4j.Logger;
 import org.springframework.integration.ip.tcp.serializer.AbstractPooledBufferByteArraySerializer;
 import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamException;
 import org.springframework.integration.mapping.MessageMappingException;
 
 public class CustomSerializerDeserializer extends AbstractPooledBufferByteArraySerializer{
 
-	private static final Logger logger = Logger.getLogger(CustomSerializerDeserializer.class.getName());
 
 	public static final char VT = 0x0b;
 	public static final char FS = 0x1c;

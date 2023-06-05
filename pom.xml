@@ -6,7 +6,20 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>pcdtool-config</name>
 
+	<properties>
+		<resourcebundle.version>1.0.0-SNAPSHOT</resourcebundle.version>
+		<core.version>1.0.0-SNAPSHOT</core.version>
+		<wctpmessagevalidation.version>1.0.2-SNAPSHOT</wctpmessagevalidation.version>
+	</properties>
+
 	<dependencies>
+		
+		<dependency>
+			<groupId>gov.nist.healthcare.pcd.pcdtool</groupId>
+			<artifactId>pcdtool-core</artifactId>
+			<version>${core.version}</version>
+		</dependency> 
+	
 		<dependency>
 			<groupId>gov.nist.healthcare.pcd.pcdtool</groupId>
 			<artifactId>pcdtool-resource-bundle</artifactId>
@@ -14,9 +27,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>gov.nist.healthcare.pcd.pcdtool</groupId>
-			<artifactId>pcdtool-message-validation</artifactId>
-			<version>${messagevalidation.version}</version>
+			<groupId>gov.nist.hit.validation</groupId>
+			<artifactId>hit-wctp-validation</artifactId>
+			<version>${wctpmessagevalidation.version}</version>
 		</dependency>
 
 		<dependency>
@@ -29,13 +42,13 @@
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-core</artifactId>
-			<version>3.0.4.RELEASE</version>
+			<version>3.1.4</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-test</artifactId>
-			<version>3.0.4.RELEASE</version>
+			<version>3.1.4</version>
 		</dependency>
 	
 		<dependency>
@@ -84,7 +97,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.39</version>
+			<version>5.1.49</version>
 		</dependency>
 
 	</dependencies>
@@ -98,8 +111,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -125,8 +138,4 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<properties>
-		<resourcebundle.version>1.0.0-SNAPSHOT</resourcebundle.version>
-		<messagevalidation.version>1.0.0-SNAPSHOT</messagevalidation.version>
-	</properties>
 </project>
