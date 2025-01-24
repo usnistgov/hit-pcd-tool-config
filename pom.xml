@@ -7,7 +7,7 @@
 	<name>pcdtool-config</name>
 
 	<properties>
-		<resourcebundle.version>1.0.0-SNAPSHOT</resourcebundle.version>
+		<resourcebundle.version>1.0.1-SNAPSHOT</resourcebundle.version>
 		<core.version>1.0.0-SNAPSHOT</core.version>
 		<wctpmessagevalidation.version>1.0.2-SNAPSHOT</wctpmessagevalidation.version>
 	</properties>
@@ -24,6 +24,12 @@
 			<groupId>gov.nist.healthcare.pcd.pcdtool</groupId>
 			<artifactId>pcdtool-resource-bundle</artifactId>
 			<version>${resourcebundle.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>gov.nist.healthcare.pcd.pcdtool</groupId>
+			<artifactId>pcdtool-message-validation</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -97,7 +103,8 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.49</version>
+			 <version>8.0.33</version> 
+			<!-- <version>5.1.49</version> -->
 		</dependency>
 
 	</dependencies>
@@ -129,13 +136,12 @@
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://vm-070.nist.gov:8081/nexus/content/repositories/releases</url>
+			<url>https://hit-nexus.nist.gov/repository/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Internal Snapshots</name>
-			<url>http://vm-070.nist.gov:8081/nexus/content/repositories/snapshots</url>
+			<url>https://hit-nexus.nist.gov/repository/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-
 </project>
